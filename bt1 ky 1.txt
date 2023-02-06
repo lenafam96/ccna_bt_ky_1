@@ -1,0 +1,156 @@
+------- route 0 -----------
+ena
+conf t
+int g0/0
+ip add 172.16.1.225 255.255.255.252
+des Link_to_Router2
+no shut
+exit
+int g0/1
+ip add 172.16.0.1 255.255.255.0
+des Link_to_LAN1
+no shut
+exit
+int g0/2
+ip add 172.16.1.1 255.255.255.128
+des Link_to_LAN2
+no shut
+ip route 172.16.1.128 255.255.255.192 172.16.1.226
+ip route 172.16.1.192 255.255.255.224 172.16.1.226
+host R1
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Router 1#
+do wr
+
+
+------- route 1 -----------
+ena
+conf t
+int g0/0
+ip add 172.16.1.226 255.255.255.252
+des Link_to_Router1
+no shut
+exit
+int g0/1
+ip add 172.16.1.193 255.255.255.224
+des Link_to_LAN4
+no shut
+exit
+int g0/2
+ip add 172.16.1.129 255.255.255.192
+des Link_to_LAN3
+no shut
+ip route 172.16.0.0 255.255.255.0 172.16.1.225
+ip route 172.16.1.0 255.255.255.128 172.16.1.225
+host R2
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Router 2#
+do wr
+
+
+------- switch 0 -----------
+ena
+conf t
+int vlan 1
+ip add 172.16.0.254 255.255.255.0
+des Vlan1
+no shut
+exit
+host Sw1
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Switch 1#
+ip def 172.16.0.1
+do wr
+
+
+------- switch 1 -----------
+ena
+conf t
+int vlan 1
+ip add 172.16.1.126 255.255.255.128
+des Vlan1
+no shut
+exit
+host Sw2
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Switch 2#
+ip def 172.16.1.1
+do wr
+
+
+------- switch 3 -----------
+ena
+conf t
+int vlan 1
+ip add 172.16.1.190 255.255.255.192
+des Vlan1
+no shut
+exit
+host Sw3
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Switch 4#
+ip def 172.16.1.129
+do wr
+
+
+------- switch 2 -----------
+ena
+conf t
+int vlan 1
+ip add 172.16.1.194 255.255.255.224
+des Vlan1
+no shut
+exit
+host Sw3
+ena sec 123
+line con 0
+pass aaa
+login
+exit
+line vty 0 15
+pass xyz
+login
+exit
+ban mot #Day la Switch 3#
+ip def 172.16.1.193
+do wr
