@@ -3,11 +3,13 @@ ena
 conf t
 int g0/0
 ip add 172.16.1.225 255.255.255.252
+ipv6 add 2021:ABCD::1/64
 des Link_to_Router2
 no shut
 exit
 int g0/1
 ip add 172.16.0.1 255.255.255.0
+ipv6 add 2020:CAFE::1/64
 des Link_to_LAN1
 no shut
 exit
@@ -17,6 +19,8 @@ des Link_to_LAN2
 no shut
 ip route 172.16.1.128 255.255.255.192 172.16.1.226
 ip route 172.16.1.192 255.255.255.224 172.16.1.226
+ipv6 uni
+ipv6 route 2019:ACAD::/64 2021:ABCD::2
 host R1
 ena sec 123
 line con 0
@@ -36,6 +40,7 @@ ena
 conf t
 int g0/0
 ip add 172.16.1.226 255.255.255.252
+ipv6 add 2021:ABCD::2/64
 des Link_to_Router1
 no shut
 exit
@@ -46,10 +51,13 @@ no shut
 exit
 int g0/2
 ip add 172.16.1.129 255.255.255.192
+ipv6 add 2019:ACAD::1/64
 des Link_to_LAN3
 no shut
 ip route 172.16.0.0 255.255.255.0 172.16.1.225
 ip route 172.16.1.0 255.255.255.128 172.16.1.225
+ipv6 uni
+ipv6 route 2020:CAFE::/64 2021:ABCD::1
 host R2
 ena sec 123
 line con 0
